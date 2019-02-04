@@ -1,0 +1,24 @@
+sudo xboxdrv
+--new terminal
+ls /dev/input/
+sudo jstest /dev/input/jsX	//displays joystick output, doesn't 					  have to run constantly
+ls -l /dev/input/jsX		//list joystick permissions
+			should display crw-rw-XX
+			if XX is rw, it's configured properly,
+			if XX is -- run the next command
+sudo chmod a+rw /dev/input/jsX
+
+----------------
+Start Joy Node
+----------------
+roscore
+--new terminal
+rosparam set joy_node/dev "/dev/input/jsX"
+rosrun joy joy_node
+--new terminal
+rostopic echo joy	//display joystick data from joy topic
+
+----------------
+Start Ros Serial
+----------------
+rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=57600
